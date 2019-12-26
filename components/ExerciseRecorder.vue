@@ -1,27 +1,36 @@
 <template>
-  <div>
-    <select name="exercise-names" id="exercise-names" v-model="exercise">
-      <option v-for="(exercise, i) in exercises" v-bind:value="exercise" v-bind:key="i">{{ exercise }}</option>
-    </select>
+  <div class="box">
+    <div class="form-field">
+      <label for="exercise-names">Exercise</label>
+      <select name="exercise-names" id="exercise-names" v-model="exercise">
+        <option
+          v-for="(exercise, i) in exercises"
+          v-bind:value="exercise"
+          v-bind:key="i"
+        >{{ exercise }}</option>
+      </select>
+    </div>
 
-    <label for="weight">Weight</label>
-    <input id="weight" type="number" v-model="weight" min="0" />
-
-    <p>Sets</p>
-
-    <form v-on:submit.prevent="addSet">
-      <input type="text" v-model="newSet" />
-      <input type="submit" value="add" />
-    </form>
+    <div class="form-field">
+      <label for="weight">Weight</label>
+      <input id="weight" type="number" v-model="weight" min="0" />
+    </div>
+    <div class="form-field">
+      <form v-on:submit.prevent="addSet">
+        <label for="sets">Sets</label>
+        <input id="sets" type="text" v-model="newSet" />
+        <input type="submit" value="add" />
+      </form>
+    </div>
 
     <ul>
       <li v-for="(set, i) in sets" v-bind:key="i">
         <span>{{ set }}</span>
-        <button v-on:click="removeSet(i)">x</button>
+        <button class="delete-btn" v-on:click="removeSet(i)">x</button>
       </li>
     </ul>
 
-    <button v-on:click="saveExercise">Save Exercise</button>
+    <button class="submission-btn" v-on:click="saveExercise">Save Exercise</button>
   </div>
 </template>
 
@@ -31,9 +40,9 @@ export default {
     return {
       exercises: [],
       exercise: "",
-      weight: 0,
+      weight: "",
       sets: [],
-      newSet: "",
+      newSet: ""
     };
   },
   props: {
@@ -53,7 +62,7 @@ export default {
           response.result.values.forEach(val => {
             this.exercises.push(val[0]);
           });
-          this.exercise = this.exercises[0]
+          this.exercise = this.exercises[0];
         });
     },
     addSet() {
@@ -76,18 +85,18 @@ export default {
     },
     saveExercise() {
       let date = this.getDate();
-      let values = [[date, this.exercise, this.weight, this.sets.toString()]]
+      let values = [[date, this.exercise, this.weight, this.sets.toString()]];
       gapi.client.sheets.spreadsheets.values
         .append({
           spreadsheetId: this.spreadsheetId,
           range: "Exercises",
           valueInputOption: "RAW",
-          resource: {values: values}
+          resource: { values: values }
         })
         .then(response => {
-          this.exercise = this.exercises[0]
-          this.weight = ''
-          this.sets = []
+          this.exercise = this.exercises[0];
+          this.weight = "";
+          this.sets = [];
         });
     }
   }

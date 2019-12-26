@@ -2,27 +2,26 @@
   <div>
     <h1>RepRoll</h1>
 
-    <button v-if="spreadsheetId" v-on:click="clear">Clear</button>
-    <div>{{ spreadsheetId }}</div>
-
-    <div v-if="signedIn !== null">
-       <!--Add buttons to initiate auth sequence and sign out-->
-      <button v-on:click="authorize" v-if="!signedIn">Authorize</button>
-      <button v-on:click="signout" v-if="signedIn">Sign Out</button>
-    </div>   
-
     <setup v-if="signedIn && !spreadsheetId" v-on:finished="retrieveSheet"></setup>
 
-    <div v-if="signedIn && spreadsheetId">      
+    <div v-if="signedIn && spreadsheetId">
       <exercise-recorder v-bind:spreadsheetId="spreadsheetId"></exercise-recorder>
-      <hr>
       <measurement-recorder v-bind:spreadsheetId="spreadsheetId"></measurement-recorder>
+    </div>
+
+    <div class="settings">
+      <button class="setting-btn" v-if="spreadsheetId" v-on:click="clear">Reset</button>
+      <span v-if="signedIn !== null">
+        <!--Add buttons to initiate auth sequence and sign out-->
+        <button class="setting-btn" v-on:click="authorize" v-if="!signedIn">Authorize</button>
+        <button class="setting-btn" v-on:click="signout" v-if="signedIn">Sign Out</button>
+      </span>
     </div>
   </div>
 </template>
 
 <script>
-import Setup from './Setup'
+import Setup from "./Setup";
 import ExerciseRecorder from "./ExerciseRecorder";
 import MeasurementRecorder from "./MeasurementRecorder";
 // Client ID and API key from the Developer Console
@@ -30,11 +29,14 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const API_KEY = process.env.API_KEY;
 
 // Array of API discovery doc URLs for APIs used by the quickstart
-const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+const DISCOVERY_DOCS = [
+  "https://sheets.googleapis.com/$discovery/rest?version=v4"
+];
 
 // Authorization scopes required by the API; multiple scopes can be
 // included, separated by spaces.
-const SCOPES = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file";
+const SCOPES =
+  "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.file";
 
 export default {
   components: {
@@ -42,13 +44,13 @@ export default {
     ExerciseRecorder,
     MeasurementRecorder
   },
-  
+
   data() {
     return {
-      spreadsheetId: '',
+      spreadsheetId: "",
       signedIn: null,
-      workout: ''
-    }
+      workout: ""
+    };
   },
 
   mounted() {
@@ -56,7 +58,7 @@ export default {
   },
 
   methods: {
-    clear(){
+    clear() {
       window.localStorage.clear();
       this.retrieveSheet();
     },
@@ -88,7 +90,7 @@ export default {
     },
 
     initClient() {
-      let self = this
+      let self = this;
       gapi.client
         .init({
           apiKey: API_KEY,
@@ -99,7 +101,9 @@ export default {
         .then(
           function() {
             // Listen for sign-in state changes.
-            gapi.auth2.getAuthInstance().isSignedIn.listen(self.updateSigninStatus);
+            gapi.auth2
+              .getAuthInstance()
+              .isSignedIn.listen(self.updateSigninStatus);
 
             // Handle the initial sign-in state.
             self.updateSigninStatus(
@@ -107,14 +111,14 @@ export default {
             );
           },
           function(error) {
-            console.log(error)
+            console.log(error);
           }
         );
     },
 
     updateSigninStatus(isSignedIn) {
-      this.signedIn = !!isSignedIn
-      if(isSignedIn) this.retrieveSheet()
+      this.signedIn = !!isSignedIn;
+      if (isSignedIn) this.retrieveSheet();
     },
 
     authorize(event) {
@@ -123,10 +127,10 @@ export default {
 
     signout(event) {
       gapi.auth2.getAuthInstance().signOut();
-    },   
-    
+    },
+
     retrieveSheet() {
-      this.spreadsheetId = window.localStorage.getItem(this.$sheetKey)
+      this.spreadsheetId = window.localStorage.getItem(this.$sheetKey);
     }
   }
 };

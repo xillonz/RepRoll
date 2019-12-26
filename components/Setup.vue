@@ -1,12 +1,11 @@
 <template>
-  <div>
+  <div id="setup" class="box">
     <div v-if="!created">
       <button v-on:click="createSheet">Create a new Record</button>
       <p>or</p>
       <form v-on:submit.prevent="setSheet(existingSheet)">
         <input type="text" placeholder="Use an existing one" v-model="existingSheet" />
         <input type="submit" value="use" />
-        <p class="sub-text">Note: sheet should be empty</p>
       </form>
     </div>
 
@@ -20,7 +19,7 @@
       <ul>
         <li v-for="(exercise, i) in exercises" v-bind:key="i">
           <span>{{ exercise }}</span>
-          <button v-on:click="removeExercise(i)">x</button>
+          <button class="delete-btn" v-on:click="removeExercise(i)">x</button>
         </li>
       </ul>
 
@@ -39,7 +38,7 @@
         </li>
       </ul>
 
-      <button v-on:click="saveAndFinish">Finished</button>
+      <button class="submission-btn" v-on:click="saveAndFinish">Finished</button>
       <p class="sub-text">Don't worry, you can always add more later</p>
     </div>
   </div>

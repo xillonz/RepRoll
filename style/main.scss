@@ -1,0 +1,100 @@
+*{
+    font-family: sans-serif;
+    color: #fff;
+}
+
+body{
+    margin: 0;
+    padding: 15px;
+    box-sizing: border-box;
+    min-height: 100vh;
+    min-width: 100vw;
+    background: #333;
+    font-size: 16px;
+}
+
+h1{
+    margin: 10px 0 20px 0;
+    text-align: center;
+}
+
+label{
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+select, input{
+    padding: 7px 4px;
+    color: #333;
+    background: #fff;
+    border: none;
+    font-size: 100%;
+    option{
+        color: #333;
+    }
+}
+
+button, input[type="submit"]{
+    padding: 7px 12px;
+    color: #fff;
+    background: rgb(97, 91, 95);
+    border: none;
+    margin: 5px 0;
+    border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    transition: background-color 0.2s ease-out;
+
+    &:hover, &:active{
+        background-color: rgb(202, 83, 172);
+    }
+}
+
+.form-field{
+    margin: 10px 0 15px 0;
+}
+
+.box{
+    padding: 15px;
+    margin: 10px 0;
+    background: #444;
+    border-radius: 10px;
+}
+
+.submission-btn, input[type="submit"].submission-btn{
+    width: 200px;
+    display: block;
+    padding: 10px;
+    margin: 20px auto 5px auto;
+}
+
+.delete-btn, .setting-btn{
+    background: none;
+}
+
+.settings{
+    text-align: center;
+    opacity: 0.7;
+}
+
+.sub-text{
+    font-size: 13px;
+    font-style: italic;
+    opacity: 0.8;
+}
+
+#setup{
+    text-align: center;
+}
+
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0 0 0 5px;
+    li{
+        display: inline-block;
+    }
+}
+

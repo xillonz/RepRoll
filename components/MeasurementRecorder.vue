@@ -1,13 +1,22 @@
 <template>
-  <div>
+  <div class="box">
     <form v-on:submit.prevent="saveMeasurement">
-      <select name="measurement-names" id="measurement-names" v-model="measurement">
-        <option v-for="(measurement, i) in measurements" v-bind:value="measurement" v-bind:key="i">{{ measurement }}</option>
-      </select>
+      <div class="form-field">
+        <label for="measurement-names">Measurement</label>
+        <select name="measurement-names" id="measurement-names" v-model="measurement">
+          <option
+            v-for="(measurement, i) in measurements"
+            v-bind:value="measurement"
+            v-bind:key="i"
+          >{{ measurement }}</option>
+        </select>
+      </div>
 
-      <label for="measurement-value">Value</label>
-      <input id="measurement-value" type="number" v-model="value" min="0" />
-      <input type="submit" value="Save Measurement" />
+      <div class="form-field">
+        <label for="measurement-value">Value</label>
+        <input id="measurement-value" type="number" v-model="value" min="0" />        
+      </div>
+      <input class="submission-btn"  type="submit" value="Save Measurement" />
     </form>
   </div>
 </template>
@@ -18,7 +27,7 @@ export default {
     return {
       measurements: [],
       measurement: "",
-      value: "",
+      value: ""
     };
   },
   props: {
@@ -38,7 +47,7 @@ export default {
           response.result.values.forEach(val => {
             this.measurements.push(val[0]);
           });
-          this.measurement = this.measurements[0]
+          this.measurement = this.measurements[0];
         });
     },
     getDate() {
@@ -63,7 +72,7 @@ export default {
           resource: { values: values }
         })
         .then(response => {
-          this.measurement = this.measurements[0]
+          this.measurement = this.measurements[0];
           this.value = "";
         });
     }
